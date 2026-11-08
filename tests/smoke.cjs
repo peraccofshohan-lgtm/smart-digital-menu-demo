@@ -23,6 +23,25 @@ const { chromium } = require("playwright");
     (await page.locator(".food-card").count()) === 6,
     "six initial dishes",
   );
+  for (const [category, count] of Object.entries({
+    signature: 2,
+    mains: 2,
+    sweet: 1,
+    drinks: 1,
+    all: 6,
+  })) {
+    await page.click(`[data-category="${category}"]`);
+    assert(
+      (await page.locator(".food-card").count()) === count,
+      `${category} category count`,
+    );
+    assert(
+      (await page
+        .locator(`[data-category="${category}"]`)
+        .getAttribute("aria-pressed")) === "true",
+      `${category} selected state`,
+    );
+  }
   await page.click('[data-category="mains"]');
   assert(
     (await page.locator(".food-card").count()) === 2,
@@ -72,6 +91,18 @@ const { chromium } = require("playwright");
     (await page.locator(".food-title-row h3").first().textContent()) ===
       "পুরান ঢাকার কাচ্চি",
     "Bengali menu toggle",
+  );
+  assert(
+    (await page
+      .locator(".food-card")
+      .filter({ hasText: "মিষ্টি দই" })
+      .locator(".portion")
+      .textContent()) === "প্রতি ভাঁড়",
+    "accurate Bengali dessert portion",
+  );
+  assert(
+    (await page.locator('[data-category="all"] span').textContent()) === "০৬",
+    "localised dynamic dish count",
   );
   await page.click("#language");
   for (const width of [320, 360, 390, 412, 768, 1024, 1440]) {
@@ -124,6 +155,96 @@ const { chromium } = require("playwright");
     "order dialog accessibility scan: " +
       modalA11y.violations.map((v) => v.id).join(", "),
   );
+  await page.click("#order-dialog .close-dialog");
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  const desktopA11y = await page.evaluate(() =>
+    axe.run(document, {
+      runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa"] },
+    }),
+  );
+  assert(desktopA11y.violations.length === 0, "desktop accessibility scan");
+  await page.click(".bag-button");
+  for (let i = 0; i < 2; i++)
+    await page.click('[data-adjust="kacchi"][data-delta="-1"]');
+  await page.click('[data-adjust="bhuna"][data-delta="-1"]');
+  assert(
+    await page.locator(".empty-bag").isVisible(),
+    "removing final dish shows empty basket",
+  );
+  assert(
+    !(await page.locator("#order-summary").isVisible()),
+    "empty basket cannot checkout",
+  );
+  await page.click("#browse-menu");
+  assert(
+    !(await page.locator("#order-dialog").isVisible()),
+    "empty basket returns to menu",
+  );
+  await page.evaluate(() => localStorage.setItem("mati-cart", "{broken json"));
+  await page.reload();
+  assert(
+    (await page.locator(".bag-count").textContent()) === "0",
+    "malformed storage recovers safely",
+  );
+  await page.evaluate(() =>
+    localStorage.setItem(
+      "mati-cart",
+      JSON.stringify({
+        kacchi: -1,
+        bhuna: 21,
+        ilish: "2",
+        doi: 1.5,
+        unknown: 2,
+        borhani: 20,
+      }),
+    ),
+  );
+  await page.reload();
+  assert(
+    (await page.locator(".bag-count").textContent()) === "20",
+    "invalid quantities and unknown dishes rejected",
+  );
+  await page.click('[data-add="borhani"]');
+  assert(
+    (await page.locator(".bag-count").textContent()) === "20",
+    "quantity cap enforced",
+  );
+  await page.click(".bag-button");
+  assert(
+    await page.locator('[data-adjust="borhani"][data-delta="1"]').isDisabled(),
+    "quantity increment disabled at cap",
+  );
+  await page.click("#preview-order");
+  await page.fill("#order-notes", "Updated note");
+  assert(
+    !(await page.locator("#order-preview").isVisible()),
+    "edited notes invalidate stale preview",
+  );
+  await page.click("#order-dialog .close-dialog");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  assert(
+    (await page.evaluate(
+      () => getComputedStyle(document.documentElement).scrollBehavior,
+    )) === "auto",
+    "reduced motion disables smooth scrolling",
+  );
+  assert(errors.length === 0, "edge cases produce no runtime errors");
+  // Verify blocked browser storage still allows an in-memory order.
+  const privatePage = await browser.newPage();
+  await privatePage.addInitScript(() => {
+    Object.defineProperty(window, "localStorage", {
+      get() {
+        throw new DOMException("Blocked", "SecurityError");
+      },
+    });
+  });
+  await privatePage.goto(process.env.BASE_URL || "http://127.0.0.1:3000");
+  await privatePage.click('[data-add="kacchi"]');
+  assert(
+    (await privatePage.locator(".bag-count").textContent()) === "1",
+    "basket works with storage blocked",
+  );
+  await privatePage.close();
   await browser.close();
 })().catch((e) => {
   console.error(e);

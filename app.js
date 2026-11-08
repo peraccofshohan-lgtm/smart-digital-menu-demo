@@ -17,6 +17,7 @@ const menu = [
     badge: "HOUSE FAVOURITE",
     bnBadge: "আমাদের বিশেষ",
     portion: "per serving",
+    bnPortion: "প্রতি পরিবেশন",
     veg: false,
     allergens: "Milk",
   },
@@ -34,6 +35,7 @@ const menu = [
     badge: "CHEF’S PICK",
     bnBadge: "শেফের পছন্দ",
     portion: "per serving",
+    bnPortion: "প্রতি পরিবেশন",
     veg: false,
     allergens: "Mustard",
   },
@@ -50,6 +52,7 @@ const menu = [
     badge: "A BENGALI CLASSIC",
     bnBadge: "বাঙালির প্রিয়",
     portion: "2 pieces",
+    bnPortion: "২ পিস",
     veg: false,
     allergens: "Fish, mustard",
   },
@@ -67,6 +70,7 @@ const menu = [
     badge: "COMFORT FOOD",
     bnBadge: "চেনা স্বাদ",
     portion: "2 pieces",
+    bnPortion: "২ পিস",
     veg: false,
     allergens: "Milk",
   },
@@ -84,6 +88,7 @@ const menu = [
     badge: "SWEET & SIMPLE",
     bnBadge: "মিষ্টি সমাপ্তি",
     portion: "per pot",
+    bnPortion: "প্রতি ভাঁড়",
     veg: true,
     allergens: "Milk, pistachio",
   },
@@ -101,6 +106,7 @@ const menu = [
     badge: "FRESHLY MADE",
     bnBadge: "সদ্য তৈরি",
     portion: "per glass",
+    bnPortion: "প্রতি গ্লাস",
     veg: true,
     allergens: "Milk, mustard",
   },
@@ -139,6 +145,27 @@ const bnCategories = {
   sweet: "মিষ্টিমুখ",
   drinks: "পানীয়",
 };
+function renderCategoryLabels() {
+  const labels = {
+    all: "All dishes",
+    signature: "Signature dishes",
+    mains: "Bengali mains",
+    sweet: "Sweet endings",
+    drinks: "Drinks",
+  };
+  document.querySelectorAll(".category").forEach((button) => {
+    const category = button.dataset.category;
+    button.textContent = bengali ? bnCategories[category] : labels[category];
+    button.lang = bengali ? "bn" : "en";
+    if (category === "all") {
+      const count = document.createElement("span");
+      count.textContent = new Intl.NumberFormat(bengali ? "bn-BD" : "en-BD", {
+        minimumIntegerDigits: 2,
+      }).format(menu.length);
+      button.append(" ", count);
+    }
+  });
+}
 function renderMenu() {
   const term = $("#search").value.trim().toLocaleLowerCase();
   const dishes = menu.filter(
@@ -152,7 +179,7 @@ function renderMenu() {
   $("#menu-grid").innerHTML = dishes
     .map(
       (dish, index) =>
-        `<article class="food-card" style="animation-delay:${index * 35}ms"><div class="food-image"><img src="assets/${dish.image}-small.webp" alt="${dish.name}" width="680" height="453" loading="lazy" decoding="async"><span class="food-badge ${dish.id === "kacchi" ? "house" : ""}" ${bengali ? 'lang="bn"' : ""}>${bengali ? dish.bnBadge : dish.badge}</span></div><div class="food-body"><div class="food-title-row"><h3 ${bengali ? 'lang="bn" style="font-family:Bengali;font-size:20px"' : ""}>${bengali ? dish.bn : dish.name}</h3>${dish.veg ? '<span class="diet-indicator" title="Vegetarian" aria-label="Vegetarian">◉</span>' : ""}</div><p class="food-bn" lang="${bengali ? "en" : "bn"}">${bengali ? dish.name : dish.bn}</p><p class="food-description" ${bengali ? 'lang="bn" style="font-family:Bengali"' : ""}>${bengali ? dish.bnDescription : dish.description}</p><div class="food-bottom"><span class="price">${money(dish.price)}<span class="portion">${bengali ? "প্রতি পরিবেশন" : dish.portion}</span></span><button class="add-button" data-add="${dish.id}" aria-label="Add ${dish.name} to your order">${bengali ? "যোগ করুন" : "Add to order"}<span aria-hidden="true">+</span></button></div></div></article>`,
+        `<article class="food-card" style="animation-delay:${index * 35}ms"><div class="food-image"><img src="assets/${dish.image}-small.webp" alt="${dish.name}" width="680" height="453" loading="lazy" decoding="async"><span class="food-badge ${dish.id === "kacchi" ? "house" : ""}" ${bengali ? 'lang="bn"' : ""}>${bengali ? dish.bnBadge : dish.badge}</span></div><div class="food-body"><div class="food-title-row"><h3 ${bengali ? 'lang="bn" style="font-family:Bengali;font-size:20px"' : ""}>${bengali ? dish.bn : dish.name}</h3>${dish.veg ? '<span class="diet-indicator" title="Vegetarian" aria-label="Vegetarian">◉</span>' : ""}</div><p class="food-bn" lang="${bengali ? "en" : "bn"}">${bengali ? dish.name : dish.bn}</p><p class="food-description" ${bengali ? 'lang="bn" style="font-family:Bengali"' : ""}>${bengali ? dish.bnDescription : dish.description}</p><div class="food-bottom"><span class="price">${money(dish.price)}<span class="portion">${bengali ? dish.bnPortion : dish.portion}</span></span><button class="add-button" data-add="${dish.id}" aria-label="Add ${dish.name} to your order">${bengali ? "যোগ করুন" : "Add to order"}<span aria-hidden="true">+</span></button></div></div></article>`,
     )
     .join("");
   $("#results-count").textContent = bengali
@@ -304,19 +331,7 @@ $("#language").addEventListener("click", () => {
   $("#search").placeholder = bengali
     ? "আপনার প্রিয় খাবার খুঁজুন…"
     : "Find a little delicious…";
-  document.querySelectorAll(".category").forEach((button) => {
-    const labels = {
-      all: "All dishes <span>06</span>",
-      signature: "Signature dishes",
-      mains: "Bengali mains",
-      sweet: "Sweet endings",
-      drinks: "Drinks",
-    };
-    button.innerHTML = bengali
-      ? bnCategories[button.dataset.category]
-      : labels[button.dataset.category];
-    button.lang = bengali ? "bn" : "en";
-  });
+  renderCategoryLabels();
   renderMenu();
   notify(bengali ? "মেনু এখন বাংলায়" : "Menu is now in English");
 });
@@ -369,5 +384,6 @@ $("#demo-menu-link").addEventListener("click", () =>
   closeDialog($("#info-dialog")),
 );
 $("#year").textContent = new Date().getFullYear();
+renderCategoryLabels();
 renderMenu();
 saveCart();

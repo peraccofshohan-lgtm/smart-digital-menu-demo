@@ -48,8 +48,8 @@ package-lock.json   Locked test dependencies
 
 ## Customise for a real restaurant
 
-1. Update the `menu` array in `app.js`. Each dish has a stable `id`, English/Bengali text, price, category, image basename, badge, portion, vegetarian flag and allergens. Use trusted, owner-reviewed content; the renderer is not a CMS for untrusted HTML.
-2. Add appropriately licensed WebP images to `assets/`. Cards use `<basename>-small.webp`; hero and story have larger variants. If changing the number of dishes, also update the “All dishes” count in HTML and the English label in the language handler.
+1. Update the `menu` array in `app.js`. Each dish has a stable `id`, English/Bengali text, price, category, image basename, badge, English/Bengali portions, vegetarian flag and allergens. Use trusted, owner-reviewed content; the renderer is not a CMS for untrusted HTML.
+2. Add appropriately licensed WebP images to `assets/`. Cards use `<basename>-small.webp`; hero and story have larger variants. Category counts are derived from the menu data automatically.
 3. Set `RESTAURANT_WHATSAPP` in `app.js` to an owner-verified international number, **digits only, with country code** (no plus sign, spaces or punctuation). The link then opens that restaurant's chat.
 4. Review all prices, portion sizes, tax wording, allergens and cross-contamination policy with the restaurant. Vegetarian does not mean vegan. The sample dishes containing dairy/nuts must not be presented as allergy-safe.
 5. Replace the brand, story, real address, opening hours and map link in `index.html`. Add a verified telephone/contact link if appropriate. Replace AI imagery with actual dishes before representing a real business.
@@ -87,7 +87,7 @@ npm test
 
 On a Linux machine missing browser libraries, use `npx playwright install --with-deps chromium` if permitted. `BASE_URL` overrides the default `http://127.0.0.1:3000`; `CHROMIUM_PATH` can point to an existing Chromium executable. Browser downloads require network access. Runtime hosting does not require npm or Playwright.
 
-`tests/smoke.cjs` checks menu counts, categories, Bengali search, empty states, vegetarian filtering, order arithmetic, quantity changes, encoded WhatsApp notes, Escape dismissal, persistence, language switching, navigation, local image loading and runtime errors. It checks horizontal overflow at **320, 360, 390, 412, 768, 1024 and 1440px**, and runs axe-core WCAG A/AA scans on the mobile page and order dialog.
+`tests/smoke.cjs` checks menu counts, categories, Bengali search, empty states, vegetarian filtering, order arithmetic, quantity changes, encoded WhatsApp notes, Escape dismissal, persistence, language switching, navigation, local image loading and runtime errors. It checks horizontal overflow at **320, 360, 390, 412, 768, 1024 and 1440px**, and runs axe-core WCAG A/AA scans on the desktop page, mobile page and order dialog. Edge-case checks cover malformed or blocked local storage, invalid saved quantities, quantity caps, removing the final dish, stale message previews and reduced-motion settings.
 
 ## Final quality checklist
 
@@ -95,8 +95,10 @@ Completed in the implementation environment using headless Chromium:
 
 - [x] All six menu images load successfully; no external image hotlinks.
 - [x] Search, all category controls, vegetarian filtering and empty-state reset work.
-- [x] Bengali text search and menu language toggle work.
+- [x] Bengali text search, localised portion labels and menu language toggle work.
+- [x] Category counts are generated from menu data, including Bengali numerals.
 - [x] Basket quantities, totals and local persistence work.
+- [x] Invalid or blocked storage, empty baskets, quantity caps and edited order notes are tested.
 - [x] WhatsApp URL encoding preserves special requests; no automatic submission.
 - [x] Keyboard Escape closes the basket; mobile navigation closes after following a link.
 - [x] No JavaScript syntax or runtime errors in tested flows.
