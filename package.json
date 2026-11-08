@@ -1,0 +1,14 @@
+{
+  "name": "smart-digital-menu-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MATI \u2014 a premium, static Bengali restaurant showcase",
+  "scripts": {
+    "test": "node tests/smoke.cjs",
+    "check": "node --check app.js"
+  },
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "playwright": "1.65.0"
+  }
+}

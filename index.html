@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#203d32" />
+    <meta
+      name="description"
+      content="Discover MATI, a fictional Bengali dining experience. Explore traditional favourites, build your meal and preview a simple WhatsApp order. A Smart Digital Menu showcase."
+    />
+    <meta
+      property="og:title"
+      content="MATI — Rooted in Bengal. Served with soul."
+    />
+    <meta
+      property="og:description"
+      content="A contemporary Bengali table. Explore the Smart Digital Menu restaurant demo."
+    />
+    <meta property="og:type" content="website" />
+    <title>MATI — A taste of our roots | Smart Digital Menu</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="assets/editorial.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#menu">Skip to menu</a>
+    <div class="announcement">
+      <span>আতিথেয়তায় বাঙালি, স্বাদে অনন্য।</span
+      ><span>A little Bengal. A lot of heart.</span
+      ><span class="demo-label">SMART DIGITAL MENU · DEMO</span>
+    </div>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="MATI home"
+        ><span class="brand-bn" lang="bn"
+          >মাটি<span class="brand-dot">.</span></span
+        ><span class="brand-caption">MATI · BENGALI KITCHEN</span></a
+      >
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#menu">Our menu</a><a href="#story">Our story</a
+        ><a href="#visit">Visit us</a>
+      </nav>
+      <div class="header-actions">
+        <button
+          class="language"
+          id="language"
+          aria-label="Show menu in Bengali"
+        >
+          EN <span>/ বাংলা</span></button
+        ><button
+          class="bag-button"
+          data-open-order
+          aria-label="View your order"
+        >
+          Your order <span class="bag-count">0</span></button
+        ><button
+          class="mobile-toggle"
+          aria-label="Open navigation"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+        >
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <nav
+      id="mobile-nav"
+      class="mobile-nav"
+      aria-label="Mobile navigation"
+      hidden
+    >
+      <a href="#menu">Our menu <span>↗</span></a
+      ><a href="#story">Our story <span>↗</span></a
+      ><a href="#visit">Visit us <span>↗</span></a>
+    </nav>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="tiny-line"></span> ROOTED IN BENGAL
+          </p>
+          <h1 id="hero-title">
+            A taste of<br />our roots.<br /><em>A table for you.</em>
+          </h1>
+          <p class="hero-bengali" lang="bn">চেনা স্বাদে, নতুন গল্পে।</p>
+          <p class="hero-description">
+            Recipes that feel like home. Ingredients that tell a story. Discover
+            the warmth of Bengali food, thoughtfully served.
+          </p>
+          <a class="button primary" href="#menu"
+            >Explore the menu <span>↗</span></a
+          >
+          <div class="hero-note">
+            <span class="little-spark">✳</span> Made with care. Meant to be
+            shared.
+          </div>
+        </div>
+        <div class="hero-visual">
+          <img
+            class="hero-image"
+            src="assets/biryani.webp"
+            srcset="assets/biryani-small.webp 680w, assets/biryani.webp 1400w"
+            sizes="(max-width: 700px) 100vw, 55vw"
+            alt="Kacchi biryani with tender mutton, saffron rice and golden potatoes on an earthen plate"
+            width="1400"
+            height="933"
+            fetchpriority="high"
+          />
+          <div class="round-seal">
+            <span>TRADITION IN</span><b lang="bn">মাটি</b
+            ><span>EVERY BITE</span>
+          </div>
+          <div class="hero-image-caption">
+            <div>
+              <span>THE HOUSE FAVOURITE</span>
+              <h2>Old Dhaka Kacchi</h2>
+            </div>
+            <a href="#menu" aria-label="Explore Old Dhaka Kacchi on our menu"
+              >↗</a
+            >
+          </div>
+        </div>
+        <div class="hero-bottom">
+          <span>GOOD FOOD. SLOW MOMENTS. GREAT COMPANY.</span
+          ><span>SCROLL TO DISCOVER ↓</span>
+        </div>
+      </section>
+      <div class="values-strip">
+        <span><i>✳</i> Authentic Bengali recipes</span
+        ><span><i>◇</i> Thoughtfully sourced ingredients</span
+        ><span><i>♧</i> Freshly prepared, always</span
+        ><span><i>♡</i> A little taste of home</span>
+      </div>
+      <section
+        class="menu-section section-wrap"
+        id="menu"
+        aria-labelledby="menu-heading"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FROM OUR KITCHEN, WITH LOVE</p>
+            <h2 id="menu-heading">Find your <em>favourite.</em></h2>
+          </div>
+          <p>
+            From everyday comforts to celebration classics.<br />A little
+            something for every craving.
+          </p>
+        </div>
+        <div class="menu-controls">
+          <div class="categories" role="group" aria-label="Filter by category">
+            <button
+              class="category active"
+              data-category="all"
+              aria-pressed="true"
+            >
+              All dishes <span>06</span></button
+            ><button
+              class="category"
+              data-category="signature"
+              aria-pressed="false"
+            >
+              Signature dishes</button
+            ><button
+              class="category"
+              data-category="mains"
+              aria-pressed="false"
+            >
+              Bengali mains</button
+            ><button
+              class="category"
+              data-category="sweet"
+              aria-pressed="false"
+            >
+              Sweet endings</button
+            ><button
+              class="category"
+              data-category="drinks"
+              aria-pressed="false"
+            >
+              Drinks
+            </button>
+          </div>
+          <label class="search"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true"
+            >
+              <circle cx="10.8" cy="10.8" r="6.5" />
+              <path d="m16 16 5 5" /></svg
+            ><input
+              id="search"
+              type="search"
+              placeholder="Find a little delicious…"
+              aria-label="Search menu dishes"
+          /></label>
+        </div>
+        <div class="menu-meta">
+          <p id="results-count" aria-live="polite">
+            ALL GOOD THINGS · 6 DISHES
+          </p>
+          <label class="veg-filter"
+            ><input type="checkbox" id="vegetarian" /> Vegetarian only
+            <span class="veg-mark"></span
+          ></label>
+        </div>
+        <div class="menu-grid" id="menu-grid"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <h3>A different craving?</h3>
+          <p>No dishes match your search. Let’s start fresh.</p>
+          <button class="button primary" id="reset-filters">
+            View all dishes <span>↗</span>
+          </button>
+        </div>
+        <noscript
+          ><p>
+            Enable JavaScript to explore the interactive menu. Our favourites:
+            Old Dhaka Kacchi ৳450, Beef Kala Bhuna ৳380, Shorshe Ilish ৳520,
+            Chicken Roast ৳280, Mishti Doi ৳120, and Borhani ৳90.
+          </p></noscript
+        >
+        <p class="menu-footnote">
+          All prices in Bangladeshi Taka (BDT). Demo prices are inclusive of
+          VAT.
+          <span>Please tell us about any food allergies before ordering.</span>
+        </p>
+      </section>
+      <section class="story-section" id="story">
+        <div class="story-photo">
+          <img
+            src="assets/fish.webp"
+            srcset="assets/fish-small.webp 680w, assets/fish.webp 1400w"
+            sizes="(max-width: 700px) 100vw, 50vw"
+            width="1400"
+            height="933"
+            loading="lazy"
+            alt="Traditional shorshe ilish in a golden mustard sauce"
+          /><span class="photo-label">OUR HERITAGE, ON A PLATE.</span>
+        </div>
+        <div class="story-copy">
+          <p class="eyebrow">THE SOUL OF MATI</p>
+          <h2>Some flavours<br />bring you <em>home.</em></h2>
+          <p class="story-bn" lang="bn">শিকড়ের টানে, স্বাদের সন্ধানে।</p>
+          <p>
+            Mati means earth. And that’s where our story begins—with the land,
+            the seasons, and the recipes passed from one generation to the next.
+          </p>
+          <p>
+            From the fragrant kitchens of Old Dhaka to the mustard fields of
+            Bengal, our table celebrates the food we grew up loving. Honest
+            ingredients. Unhurried cooking. A generous heart.
+          </p>
+          <div class="story-signature">
+            <span lang="bn">মাটি</span>
+            <p>ROOTED IN TRADITION.<br />MADE FOR TODAY.</p>
+          </div>
+        </div>
+      </section>
+      <section class="visit-section section-wrap" id="visit">
+        <div class="visit-intro">
+          <p class="eyebrow">THERE’S A SEAT FOR YOU</p>
+          <h2>Come hungry.<br /><em>Leave happy.</em></h2>
+          <p>
+            Good conversations start around a good table.<br />We’d love to
+            welcome you to ours.
+          </p>
+          <span class="location-disclaimer"
+            >Fictional restaurant · illustrative location & hours</span
+          >
+        </div>
+        <div class="visit-details">
+          <div>
+            <span class="detail-icon">↗</span>
+            <div>
+              <h3>In the heart of Dhaka</h3>
+              <p>Dhanmondi, Dhaka, Bangladesh</p>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=Dhanmondi+Dhaka+Bangladesh"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Explore the neighbourhood ↗</a
+              >
+            </div>
+          </div>
+          <div>
+            <span class="detail-icon">◷</span>
+            <div>
+              <h3>A table, any day</h3>
+              <p>
+                Saturday – Thursday <span>12:00 PM – 10:30 PM</span><br />Friday
+                <span>2:00 PM – 11:00 PM</span>
+              </p>
+            </div>
+          </div>
+          <div>
+            <span class="detail-icon">♡</span>
+            <div>
+              <h3>Your favourites, your way</h3>
+              <p>Build a meal. Preview your WhatsApp order.</p>
+              <button class="text-link" data-open-order>
+                Let’s order something good ↗
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="demo-banner">
+        <div>
+          <p class="eyebrow">BEAUTIFUL MENUS. BETTER FIRST IMPRESSIONS.</p>
+          <h2>Your restaurant could look <em>this good.</em></h2>
+          <p>
+            This is a live concept by Smart Digital Menu. Built for the way
+            Bangladesh dines.
+          </p>
+        </div>
+        <button class="button light" id="demo-info">
+          About this demo <span>↗</span>
+        </button>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-top">
+        <a href="#" class="brand footer-brand"
+          ><span class="brand-bn" lang="bn"
+            >মাটি<span class="brand-dot">.</span></span
+          ><span class="brand-caption">MATI · BENGALI KITCHEN</span></a
+        >
+        <p>A taste of our roots.<br />A table for everyone.</p>
+        <div class="footer-links">
+          <a href="#menu">Our menu</a><a href="#story">Our story</a
+          ><a href="#visit">Find us</a>
+        </div>
+        <a class="back-top" href="#">Back to top ↑</a>
+      </div>
+      <div class="footer-bottom">
+        <span
+          >© <span id="year">2026</span> MATI. A fictional restaurant
+          concept.</span
+        ><span>Crafted with care by <b>Smart Digital Menu</b></span>
+      </div>
+    </footer>
+    <button
+      class="whatsapp-float"
+      data-open-order
+      aria-label="Open WhatsApp order basket"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        aria-hidden="true"
+      >
+        <path
+          d="M20.5 11.6a8.5 8.5 0 0 1-12.7 7.5L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.6Z"
+        />
+        <path
+          d="M8 7.5c-.9 2.9 2.6 6.7 5.8 7.7l1.7-1.7-2.5-1.4-1 1c-1.6-.7-2.5-1.6-3-3l.9-.8L8.7 7Z"
+        /></svg
+      ><span>Order on WhatsApp</span><span class="float-count" hidden>0</span>
+    </button>
+    <div class="toast" id="toast" role="status"></div>
+    <dialog id="order-dialog" aria-labelledby="order-title">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">A LITTLE SOMETHING DELICIOUS</p>
+          <h2 id="order-title">Your <em>table.</em></h2>
+        </div>
+        <button class="close-dialog" aria-label="Close order">×</button>
+      </div>
+      <div id="order-items"></div>
+      <div id="order-summary">
+        <div class="order-total">
+          <span>Subtotal</span><strong id="subtotal">৳0</strong>
+        </div>
+        <p class="order-tax">
+          VAT included. Delivery, if available, is confirmed by the restaurant.
+        </p>
+        <label class="notes-label" for="order-notes"
+          >Any special requests?</label
+        ><textarea
+          id="order-notes"
+          rows="2"
+          maxlength="400"
+          placeholder="Less spice, an allergy we should know about…"
+        ></textarea>
+        <p class="demo-notice">
+          Demo only — no order will be placed. Preview your message, or share it
+          with a WhatsApp contact of your choice.
+        </p>
+        <button class="button primary checkout" id="preview-order">
+          Preview WhatsApp order <span>↗</span>
+        </button>
+        <div id="order-preview" hidden>
+          <pre id="message-preview"></pre>
+          <a
+            class="button primary"
+            id="whatsapp-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Share via WhatsApp ↗</a
+          >
+        </div>
+      </div>
+    </dialog>
+    <dialog id="info-dialog" aria-labelledby="info-title">
+      <div class="dialog-header">
+        <h2 id="info-title">A better first <em>impression.</em></h2>
+        <button class="close-dialog" aria-label="Close demo information">
+          ×
+        </button>
+      </div>
+      <p>
+        Smart Digital Menu is a mobile-first restaurant showcase with a
+        bilingual menu, instant filters and a WhatsApp-ready order basket.
+      </p>
+      <p>
+        MATI is a fictional brand. The dishes, prices, opening hours and
+        location are illustrative. Food photography is AI-generated; no real
+        restaurant or service is represented.
+      </p>
+      <p>
+        This demo never takes payment or submits an order. A restaurant owner
+        can configure their own WhatsApp number, menu, location and photographs
+        before publishing.
+      </p>
+      <a class="button primary" href="#menu" id="demo-menu-link"
+        >Try the menu <span>↗</span></a
+      >
+    </dialog>
+  </body>
+</html>
